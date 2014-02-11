@@ -49,3 +49,47 @@ namespace IOSQL
         
     }
 }
+
+
+
+
+
+//Test program
+
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace IOSQL
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            
+            FileStream fStream;
+            ReadWrite fileOB;
+            try
+            {
+                fStream = new FileStream(@"C:\Users\Alvin\Documents\C sharp text\NewClass.txt", FileMode.Create);
+                fileOB = new ReadWrite(fStream);
+                do
+                {
+                    fileOB.MessageDis();
+                    fileOB.WriteFile(Console.ReadLine());
+
+                } while (fileOB.Quit == false);
+            }
+            catch(IOException e)
+            {
+                Console.WriteLine("Unable to open or write file.");
+                Console.WriteLine("System message: " + e);
+            }
+
+            Console.ReadKey();
+        }
+    }
+}
