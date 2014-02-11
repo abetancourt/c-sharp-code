@@ -1,0 +1,51 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace IOSQL
+{
+    class ReadWrite
+    {
+        FileStream fileStr;
+        StreamWriter sWriter;
+        string str;
+        bool quit = false;
+        
+
+        public ReadWrite(FileStream fileStr)
+        {
+            this.fileStr = fileStr;
+            sWriter = new StreamWriter(this.fileStr);
+        }
+
+        public void MessageDis()
+        {
+            Console.Write("Enter some text(exit to quit): ");
+        }
+
+        public void WriteFile(string text)
+        {
+            str = text;
+            sWriter.WriteLine(str + " " );
+            if (str.Equals("exit", StringComparison.OrdinalIgnoreCase))
+            {
+                quit = true;
+                sWriter.Close();
+
+            }
+        }
+
+        public bool Quit 
+        {
+            get 
+            {
+                return quit;
+            }
+        }
+              
+
+        
+    }
+}
