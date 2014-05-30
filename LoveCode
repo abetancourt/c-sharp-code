@@ -1,0 +1,31 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+        //Romantic code
+        /*
+        *decVal contains decimal value array which is convert to res(character array)
+        *Just for fun I ran the code for my significant other which outputs Ericka I Love You 
+        */
+            int[] decVal = new int[] {69,114,105,99,107,97,32, 73,32,76,111,118,101,32,89,111,117};
+            char[] res = new char[decVal.Length];
+            for (int i = 0; i < res.Length; i++)
+            {
+                res[i] = Convert.ToChar(decVal[i]);
+            }
+            foreach (char a in res)
+            {
+                Console.Write(a);
+            }
+            Console.ReadKey();
+        }
+    }
+}
