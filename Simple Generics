@@ -1,0 +1,49 @@
+using System;
+using Microsoft.VisualBasic;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SimpleGenericsDemo
+{
+
+/*
+*This code uses a reference to visual basic's Inforamation class
+*which is used to tell use about an onject such as if it is numeric
+*/
+    class GenericClass<T>
+    {
+        T obOne;
+        T obTwo;
+        Random rNum;
+        public GenericClass()
+        { }
+
+        public GenericClass(T one, T two)
+        {
+            obOne = one;
+            obTwo = two;
+        }
+        public string DataType()
+        {
+            return obOne.GetType().ToString();
+        }
+        public string IsOrNotNum()
+        {
+            if (obOne.GetType() == obTwo.GetType()) 
+            {
+                if (Information.IsNumeric(obOne))
+                {
+                    return "numeric value";
+                }
+                else
+                {
+                    return "Not Numeric";
+                }
+            }
+            return "Invalid";
+
+        }
+    }
+}
