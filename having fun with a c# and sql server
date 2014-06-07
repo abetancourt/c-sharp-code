@@ -1,0 +1,19 @@
+public void databaseInsert()
+        {
+            try
+            {
+                conn = new SqlConnection(@"Server=localhost\sqlexpress; Database= TSQL2012; Integrated Security=True;");
+                conn.Open();
+                MessageBox.Show("Opened");
+
+                SqlCommand command = new SqlCommand("select * from HR.Employees", conn);
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message, "Error");
+            }
+            finally
+            {
+                conn.Close();
+                MessageBox.Show("Closed");
+            }
