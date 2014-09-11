@@ -1,0 +1,190 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace MarsLanderSimForm
+{
+    public partial class Form1 : Form
+    {
+        DataBaseCL singIn;
+        public int altimDecent;
+        public int veloC;
+        public int inc = 0;
+        public string parachuteID = "PC123";
+        public string guidanceID = "GS123";
+        public string engineID = "EI123";
+        public string userID = "test1";
+        public Form1()
+        {
+            InitializeComponent();
+        }
+       
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            //message box displayed before form1 loads 
+            MessageBox.Show( "Sign in to begin","Lander Simulation");
+            
+            //sets backcolor to default for application start
+            parachuteONOFF.BackColor = System.Drawing.Color.LimeGreen;
+            axialEnTXT.BackColor = System.Drawing.Color.Red;
+            rollEngineTXT.BackColor = System.Drawing.Color.Red;
+            gcsTXT.BackColor = System.Drawing.Color.Red;
+
+            //disables button engage until authized user signs in
+            beginBut.Enabled = false;
+            viewLogsBut.Enabled = false;
+            
+            
+            
+            
+        }
+
+        private void signInBut_Click(object sender, EventArgs e)
+        {
+             singIn = new DataBaseCL();
+            userID = singIn.getUserId;
+            singIn.get();
+            if (userNametxt.Text == singIn.getUserName && passwordtxt.Text == singIn.getPassWord)
+            {
+                MessageBox.Show("You have successfully signed in", "Welcome");
+                beginBut.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("Incorrect credentials \nContact your administrator for loggon access", "Not Logged IN");
+            }
+            
+            
+        }
+
+        private void beginBut_Click(object sender, EventArgs e)
+        {
+           
+            altimDecent = 1500;
+            veloC = 500;
+            altimeterRadartxt.Text = altimDecent.ToString();
+            velocitytxt.Text = veloC.ToString();
+            beginBut.Enabled = false;
+            beginBut.Text = "In Progress";
+            timer1.Enabled = true;
+            timer2.Enabled = true;
+            updateLBL.Text = "Parachute is enabled.";
+            gcsTXT.Text = "ON";
+            gcsTXT.BackColor = System.Drawing.Color.LimeGreen;
+            singIn.InsertParachute();
+            singIn.insertGCS();
+            roverPictureBX.Image = Image.FromFile(@"C:\Users\theas_000\Pictures\MarsLander\parachute.jpg");
+            
+
+            
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+            altimDecent--;
+            
+            
+
+            altimeterRadartxt.Text = altimDecent.ToString();
+            //if (altimDecent == 1500)
+            //{
+              //  db.InsertParachute(parachuteID,userID);
+            //}
+            
+            
+
+            if (altimDecent == 0)
+            {
+                timer1.Enabled = false;
+                singIn.engineUpdate();
+                singIn.updateGCS();
+                viewLogsBut.Enabled = true;
+                roverPictureBX.Image = Image.FromFile(@"C:\Users\theas_000\Pictures\MarsLander\landingComplete.jpg");
+                MessageBox.Show("View Logs NoW Available", "Simulation Sucess");
+            }
+            if (altimDecent == 1000)
+            {
+                timer3.Enabled = true;
+                
+            }
+            if (altimDecent == 600)
+            {
+                timer2.Enabled = false;
+            }
+            if (altimDecent == 200)
+            {
+                timer2.Enabled = true;
+                timer2.Interval = 1000;
+            }
+            if (altimDecent == 100)
+            {
+                timer2.Enabled = false;
+            }
+            if(altimDecent == 0)
+            {
+                velocitytxt.Text = "0";
+            }
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            veloC--;
+            velocitytxt.Text = veloC.ToString();
+            if (altimDecent == 700)
+            {
+                timer2.Interval = 1;
+            }
+            if (altimDecent == 1450)
+            {
+                timer2.Enabled = false;
+            }
+
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+           Logs showForm = new Logs();
+            showForm.Show();
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            
+            
+                inc++;
+                if (inc != 100)
+                {
+                    updateLBL.Text = "Axial Engine: warming up - Roll Engine: warming up";
+                    axialEngineWarm.Increment(+1);
+                    rollEngineWarm.Increment(+1);
+                }
+                else 
+                {
+
+                    singIn.insertEngine();
+                    singIn.updateParachute();
+                    updateLBL.Text = "Axial Engine: Online - Roll Engine Online";
+                    parachuteONOFF.Text = "OFF";
+                    parachuteONOFF.BackColor = System.Drawing.Color.Red;
+                    axialEnTXT.Text = "ON";
+                    axialEnTXT.BackColor = System.Drawing.Color.LimeGreen;
+                    rollEngineTXT.Text = "ON";
+                    rollEngineTXT.BackColor = System.Drawing.Color.LimeGreen;
+                    timer3.Enabled = false;
+                    roverPictureBX.Image = Image.FromFile(@"C:\Users\theas_000\Pictures\MarsLander\thrusters.jpg");
+                }
+
+            
+        }
+
+    }
+}
