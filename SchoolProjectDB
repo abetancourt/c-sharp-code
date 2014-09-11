@@ -1,0 +1,215 @@
+using System;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace  MarsLanderSimForm
+
+{
+    class DataBaseCL
+    {
+        private SqlConnection conn = null;
+        private string userName, passWord,userID;
+        private LanderSimulationDataSet lsd;
+        private SqlDataAdapter da;
+        
+
+        public void get()
+        {
+            try
+            {
+                conn = new SqlConnection(@"Server=localhost\sqlexpress; Database= LanderSimulation; Integrated Security=True;");
+                conn.Open();
+                SqlCommand command = new SqlCommand("select userSimName,PassWord from dbo.userinfo" +
+                 " where userID = 'test1'; ", conn);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    userName = reader.GetString(0);
+                    passWord = reader.GetString(1);
+                    
+                }
+                command = new SqlCommand("select userid from dbo.marsusertab where userid = 'ms555'", conn);
+                while (reader.Read())
+                {
+                    userID = reader.GetString(0);
+                }
+                
+                
+            }
+            catch (SqlException e)
+            {
+                
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public string getUserName
+        {
+            get
+            {
+                return userName;
+            }
+        }
+        public string getPassWord
+        {
+            get
+            {
+                return passWord;
+            }
+        }
+        public string getUserId
+        {
+            get
+            {
+                return userID;
+            }
+        }
+
+        public void InsertParachute()
+        {
+            try
+            {
+                lsd = new LanderSimulationDataSet();
+                
+                conn = new SqlConnection(@"Server=localhost\sqlexpress; Database= LanderSimulation; Integrated Security=True;");
+                conn.Open();
+                da = new SqlDataAdapter("update dbo.Parachute set  deployementtime = GETDATE() where parachuteid = 'PC123'", conn);
+                da.Fill(lsd, "parachute");
+                //SqlCommand command = new SqlCommand("update dbo.Parachute set  deployementtime = GETDATE() where parachuteid = 'PC123'", conn);
+                
+                
+
+
+            }
+            catch (SqlException e)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public void updateParachute()
+        {
+            try
+            {
+                lsd = new LanderSimulationDataSet();
+                conn = new SqlConnection(@"Server=localhost\sqlexpress; Database= LanderSimulation; Integrated Security=True;");
+                conn.Open();
+                da = new SqlDataAdapter("update dbo.Parachute set  releaseTime = GETDATE() where parachuteid = 'PC123'", conn);
+                da.Fill(lsd, "Parachute");
+               // SqlCommand command = new SqlCommand("update dbo.Parachute set  releaseTime = GETDATE() where parachuteid = 'PC123'", conn);
+
+                
+
+            }
+            catch (SqlException e)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void insertGCS()
+        {
+            try
+            {
+                lsd = new LanderSimulationDataSet();
+                conn = new SqlConnection(@"Server=localhost\sqlexpress; Database= LanderSimulation; Integrated Security=True;");
+                conn.Open();
+                //SqlCommand command = new SqlCommand("update dbo.gcs set starttime = GETDATE() where guidanceID = 'GS123'", conn);
+                da = new SqlDataAdapter("update dbo.gcs set starttime = GETDATE() where guidanceID = 'GS123'", conn);
+                da.Fill(lsd, "gcs");
+
+
+            }
+            catch (SqlException e)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public void updateGCS()
+        {
+            try
+            {
+                lsd = new LanderSimulationDataSet();
+                conn = new SqlConnection(@"Server=localhost\sqlexpress; Database= LanderSimulation; Integrated Security=True;");
+                conn.Open();
+                //SqlCommand command = new SqlCommand("update dbo.gcs set endtime = GETDATE() where guidanceID = 'GS123'", conn);
+                da = new SqlDataAdapter("update dbo.gcs set endtime = GETDATE() where guidanceID = 'GS123'", conn);
+                da.Fill(lsd, "gcs");
+
+
+            }
+            catch (SqlException e)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public void insertEngine()
+        {
+            try
+            {
+                lsd = new LanderSimulationDataSet();
+                conn = new SqlConnection(@"Server=localhost\sqlexpress; Database= LanderSimulation; Integrated Security=True;");
+                conn.Open();
+                //SqlCommand command = new SqlCommand("update dbo.engine set enginestarttime = GETDATE() where engineid = 'EI123'", conn);
+                da = new SqlDataAdapter("update dbo.engine set enginestarttime = GETDATE() where engineid = 'EI123'", conn);
+                da.Fill(lsd, "engine");
+
+
+            }
+            catch (SqlException e)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public void engineUpdate()
+        {
+            try
+            {
+                lsd = new LanderSimulationDataSet();
+                conn = new SqlConnection(@"Server=localhost\sqlexpress; Database= LanderSimulation; Integrated Security=True;");
+                conn.Open();
+                //SqlCommand command = new SqlCommand("update dbo.engine set engineendtime = GETDATE() where engineid = 'EI123'", conn);
+                da = new SqlDataAdapter("update dbo.engine set engineendtime = GETDATE() where engineid = 'EI123'", conn);
+                da.Fill(lsd, "engine");
+
+            }
+            catch (SqlException e)
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+
+
+    }
+}
