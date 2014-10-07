@@ -1,0 +1,105 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TestApp
+{
+    class HistoryQueue
+    {
+        private  List<string> currHistory = new List<string>();
+        private  string returnHist;
+        private  int currentIndex;
+        public HistoryQueue()
+        {
+            currHistory.Add("History started: " + DateTime.Now);
+        }
+        public void CollectHist(string now)
+        {
+            currHistory.Add(DateTime.Now + ": " + now);
+
+        }
+        public  string PerLineHistory()
+        {
+            if (currHistory.Count >= 0)
+            {
+                returnHist = currHistory[currentIndex];
+                currentIndex++;
+                return returnHist;
+            }
+            else
+            {
+                return "No history";
+            }
+        }
+        public string[] GetWholeHistory()
+        {
+            string[] WholeHist = new string[currHistory.Count];
+            int i = 0;
+            currHistory.ForEach(delegate(String s)
+             {
+                 WholeHist[i] = s;
+                 i++;
+             });
+            return WholeHist;
+        }
+
+    }
+}
+
+
+
+
+
+/*main class to test the queue class.  for loop to create random data*/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TestApp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            HistoryQueue hQ = new HistoryQueue();
+            List<string> TestList = new List<string>();
+            string AddChar = null;
+            char CharTest;
+            for(int i = 0; i < 10; i++)
+            {
+                for (int a = 0; a < 5; a++)
+                {
+                    CharTest = Convert.ToChar(a);
+                    AddChar += CharTest.ToString();
+                }
+                
+                
+                TestList.Add(AddChar);
+                hQ.CollectHist(TestList[i]);
+
+            }
+            AddChar = null;
+            string [] see = new string[TestList.Count];
+            string[] T = new string[TestList.Count];
+            T = hQ.GetWholeHistory();
+            foreach (string e in T)
+            {
+                Console.WriteLine(e);
+            }
+            /*for (int i = 0; i < TestList.Count; i++)
+            {
+                see[i] = hQ.PerLineHistory();
+            }
+            foreach (string s in see)
+            {
+                Console.WriteLine(s);
+            }
+                Console.WriteLine(AddChar);*/
+            Console.ReadKey();
+        }
+    }
+}
