@@ -1,0 +1,42 @@
+string val;
+        char[] individualChar;
+        val = firstNametxt.Text;
+        individualChar = new char[val.Length];
+        for (int i = 0; i < individualChar.Length; i++)
+        {
+            individualChar[i] = val[i];
+            if (individualChar[i] >= (char)0 && individualChar[i] <= (char)64 
+                || individualChar[i] >= (char)91 && individualChar[i] <= (char)96
+                || individualChar[i] >= (char)121 && individualChar[i] <= (char)127)
+            {
+                authLab.Text = "Invalid values";
+                break;
+            }
+            else
+            {
+                authLab.Text = "Nice!!";
+            }
+
+
+        }
+        val = null;
+        val = lastNametxt.Text;
+        individualChar = null;
+        individualChar = new char[val.Length];
+        for (int i = 0; i < individualChar.Length; i++)
+        {
+            individualChar[i] = val[i];
+            if (individualChar[i] >= (char)0 && individualChar[i] <= (char)64
+                || individualChar[i] >= (char)91 && individualChar[i] <= (char)96
+                || individualChar[i] >= (char)121 && individualChar[i] <= (char)127)
+            {
+                authLab.Text = "Invalid values";
+                break;
+            }
+            else
+            {
+                authLab.Text = "Nice!!";
+            }
+
+
+        }
